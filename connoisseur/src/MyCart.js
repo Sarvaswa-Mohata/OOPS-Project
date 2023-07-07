@@ -5,7 +5,7 @@ import cart_icon from './assets/icons-8-cart-5011.png';
 import minus_sign from './assets/icons-8-minus-5011.png';
 import plus_sign from './assets/plus.png';
 import { Helmet } from 'react-helmet';
-import {useHistory} from 'react-router-dom';
+// import {useLocation} from 'react-router-dom';
 import {initializeApp} from 'firebase/app';
 import { getDatabase, ref, push, update, remove, onValue, set } from "firebase/database";
 
@@ -19,6 +19,7 @@ const cart = ref(database,'cartItems');
 const orders = ref(database, 'my_orders');
 
 export default function MyCart() {
+  // const location = useLocation();
   const [cartItems, setCartItems] = useState([]);
   const [my_orders, set_my_orders] = useState([]);
 
@@ -45,6 +46,10 @@ export default function MyCart() {
       }
     });
   }, []);
+  
+  // const handleBack = () =>{
+  //   window.location.href = '/menu';
+  // };
   
   const handleCheckout = () => {
     push(orders, cartItems);
@@ -80,8 +85,8 @@ export default function MyCart() {
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
       </Helmet>
       <div className="top_yellow_margin">
-        <div className="back-btn">
-          <img src={back_btn} alt="Back Button" />
+        <div className="back-btn" >
+          <img src={back_btn} alt="Back Button"/>
         </div>
         <div className="cart">
           <img src={cart_icon} className="cart-icon" alt="Cart Icon" />

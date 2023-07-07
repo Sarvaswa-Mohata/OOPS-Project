@@ -2,15 +2,27 @@ import React, { useState } from 'react';
 import './LandingPage.css';
 import menu_icon from './assets/menu.png';
 import right_arrow_icon from './assets/vector-11.png';
-import green_dot from './assets/green-dot.png';
-import red_dot from './assets/red-dot.png';
 import { Helmet } from 'react-helmet';
 import data from './LandingPage_data.json';
 import burger from './assets/component-3.png';
-import './popup.css'
+import './popup.css';
 import Popup from './popup';
+import veg from "./assets/green-dot.png";
+import non_veg from "./assets/red-dot.png";
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, push, remove, onValue, set } from 'firebase/database';
+
+const appSettings = {
+  databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+const app = initializeApp(appSettings);
+const database = getDatabase(app);
+const items = ref(database, 'menuPage');
+
 
 export default function LandingPage() {
+  const [menuPage, setmenuPage] = useState([]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
@@ -18,7 +30,7 @@ export default function LandingPage() {
     setSelectedItemIndex(itemIndex);
     setIsPopupVisible(!isPopupVisible);
   };
-  
+
   const closePopup = () => {
     setIsPopupVisible(false);
   };
@@ -71,8 +83,8 @@ export default function LandingPage() {
                       </div>
                       <div className='item-details'>
                         <div className='food-item-name'>{item['food-item-name']}</div>
-                        <div className='veg-non-veg'>
-                          <img src={item.veg === 'true' ? green_dot : red_dot} className='dot' alt='Dot' />
+                        <div className='veg-non-veg' key={itemIndex}>
+                          <img src={item.veg === true ? veg : non_veg} className='dot' alt='Dot' />
                         </div>
                       </div>
                     </div>
@@ -85,8 +97,8 @@ export default function LandingPage() {
       </div>
       {isPopupVisible && selectedItemIndex !== null && (
         <Popup
-          selectedItem={data[selectedItemIndex]}
-          onClose={() => setIsPopupVisible(false)}
+          selectedItemIndex={selectedItemIndex}
+          onClose={closePopup}
         />
       )}
     </div>

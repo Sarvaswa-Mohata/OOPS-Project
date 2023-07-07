@@ -1,10 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './MyCart.css';
 import back_btn from './assets/icons-8-back-501.png';
-import order_icon from './assets/order-icon.png';
+import order_icon from './assets/icons8-order-100.png';
 import { Helmet } from 'react-helmet';
+import {initializeApp} from 'firebase/app';
+import { getDatabase, ref, push, update, remove, onValue, set } from "firebase/database";
+
+const appSettings = {
+  databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+const app = initializeApp(appSettings);
+const database = getDatabase(app);
+const orders = ref(database, 'my_orders');
 
 export default function MyCart({ foodItems }) {
+  const [my_orders, set_my_orders] = useState([]);
+
+  useEffect(() => {
+
+    onValue(orders, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const items = Object.values(data);
+        set_my_orders(items);
+      }
+      else{
+        set_my_orders([]);
+      }
+    });
+  }, []);
+
   return (
     <div>
       <Helmet>
@@ -22,7 +48,7 @@ export default function MyCart({ foodItems }) {
         </div>
       </div>
 
-      {foodItems.map((item, index) => (
+      {my_orders.map((item, index) => (
         <div className="item-card" key={index}>
           <div className="food-img">
             <img src={item["food-item-image"]} alt={item["food-item-txt"]} />

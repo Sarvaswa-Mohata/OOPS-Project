@@ -1,14 +1,45 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './popup.css';
-import burger from './assets/burger-popup.png';
-import veg from './assets/veg-popup.png';
-import minus from './assets/minus-popup.png';
-import plus from './assets/plus-popup.png';
-import tag from './assets/tag.png';
 import { Helmet } from 'react-helmet';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onValue, off } from 'firebase/database';
+import minus from "./assets/minus-popup.png";
+import plus from "./assets/plus-popup.png";
+import tagImg from "./assets/tag.png";
+import veg from "./assets/veg-popup.png";
+import non_veg from "./assets/red-dot.png";
 
-export default function Popup({ onClose }) {
+const appSettings = {
+  databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+const app = initializeApp(appSettings);
+const database = getDatabase(app);
+
+const getVegNonVegImage = (isVeg) => {
+  return isVeg ? veg : non_veg;
+}
+
+export default function Popup({ onClose, selectedItemIndex }) {
   const popupRef = useRef(null);
+  const [popupData, setPopupData] = useState(null);
+
+  useEffect(() => {
+    const popupDataRef = ref(database, 'popupData');
+    const fetchData = () => {
+      onValue(popupDataRef, (snapshot) => {
+        const data = snapshot.val();
+        setPopupData(data[selectedItemIndex]);
+      });
+    };
+
+    fetchData();
+
+    return () => {
+      // Cleanup the event listener when the component is unmounted
+      off(popupDataRef);
+    };
+  }, [selectedItemIndex]);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -24,27 +55,36 @@ export default function Popup({ onClose }) {
     };
   }, [onClose]);
 
+  if (!popupData) {
+    return null; // Render nothing if the data is not available yet
+  }
+
+  const { foodItemImage, price, tag, foodItemName, veg, desc } = popupData;
+  const vegNonVegImage = getVegNonVegImage(veg);
+
   return (
     <div className="popup-overlay">
       <div className="popup-content" ref={popupRef}>
         <Helmet>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
           <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
         </Helmet>
         <div className='item-image'>
-          <div className='food-item-image'><img src={burger} alt="Burger" /></div>
-          <div className='tag-div'><img src={tag} alt="Tag" /></div>
-          <div className='price'><span className='price-txt'>₹ 170</span></div>
+          <div className='food-item-image'><img src={foodItemImage} alt="Food Item" /></div>
+          {tag && <div className='tag-div'><img src={tagImg} alt="Tag" /></div>}
+          <div className='price'><span className='price-txt'>₹ {price}</span></div>
         </div>
-        <div className='Bestseller-div'>
-          <div className='outer-rect'><span className='bestseller'>Bestseller</span></div>
-        </div>
-        <div className='item-name-div'><span className='item-name'>Aloo Tikki</span></div>
-        <div className='veg-non-veg'><img src={veg} alt="Veg" /></div>
+        {tag && (
+          <div className='Bestseller-div'>
+            <div className='outer-rect'><span className='bestseller'>{tag}</span></div>
+          </div>
+        )}
+        <div className='item-name-div'><span className='item-name'>{foodItemName}</span></div>
+        <div className='veg-non-veg'><img src={vegNonVegImage} alt={veg ? "Veg" : "Non-Veg"} /></div>
         <div className='desc'>
           <div className='desc-text'>
-            A huge single or triple burger with all the fixings, cheese, lettuce, tomato, onions and special sauce or mayonnaise!
+            {desc}
           </div>
         </div>
         <div className='minus-qty-plus'>

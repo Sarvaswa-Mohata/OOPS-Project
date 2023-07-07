@@ -1,40 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MyCart.css';
 import back_btn from './assets/icons-8-back-501.png';
 import cart_icon from './assets/icons-8-cart-5011.png';
 import minus_sign from './assets/icons-8-minus-5011.png';
 import plus_sign from './assets/plus.png';
 import { Helmet } from 'react-helmet';
+import {useHistory} from 'react-router-dom';
 import {initializeApp} from 'firebase/app';
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, push, update, remove, onValue, set } from "firebase/database";
 
 const appSettings = {
   databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
-}
+};
 
-const app = initializeApp(appSettings)
-const database = getDatabase(app)
+const app = initializeApp(appSettings);
+const database = getDatabase(app);
 const cart = ref(database,'cartItems');
+const orders = ref(database, 'my_orders');
 
-export default function MyCart({ foodItems }) {
-  const [cartItems, setCartItems] = useState(foodItems);
+export default function MyCart() {
+  const [cartItems, setCartItems] = useState([]);
+  const [my_orders, set_my_orders] = useState([]);
+
+  useEffect(() => {
+    onValue(cart, (snapshot) => {
+      const data = snapshot.val();
+      if(data){
+        const items = Object.values(data);
+        setCartItems(items);
+      }
+      else{
+        setCartItems([]);
+      }
+    });
+  
+    onValue(orders, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const items = Object.values(data);
+        set_my_orders(items);
+      }
+      else{
+        set_my_orders([]);
+      }
+    });
+  }, []);
+  
   const handleCheckout = () => {
-    push(cart, foodItems);
+    push(orders, cartItems);
   };
 
   const increaseQuantity = (index) => {
     const updatedCartItems = [...cartItems];
     updatedCartItems[index]['food-item-qty'] += 1;
     setCartItems(updatedCartItems);
+    set_my_orders(updatedCartItems);
+    set(cart, updatedCartItems);
   };
 
   const decreaseQuantity = (index) => {
     const updatedCartItems = [...cartItems];
     if (updatedCartItems[index]['food-item-qty'] > 1) {
       updatedCartItems[index]['food-item-qty'] -= 1;
+      setCartItems(updatedCartItems);
+      set_my_orders(updatedCartItems);
+      set(cart, updatedCartItems);
+    } else {
+      const dataIndexRef = ref(database, 'cartItems/' + index);
+      remove(dataIndexRef)
     }
-    setCartItems(updatedCartItems);
   };
+  
 
   return (
     <div>
@@ -53,7 +89,7 @@ export default function MyCart({ foodItems }) {
         </div>
       </div>
 
-      {foodItems.map((item, index) => (
+      {cartItems.map((item, index) => (
         <div className="item-card" key={index}>
           <div className="food-img">
             <img src={item["food-item-image"]} alt={item["food-item-txt"]} />

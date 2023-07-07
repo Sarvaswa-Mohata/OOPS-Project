@@ -1,34 +1,34 @@
-.top_yellow_margin{
+.top_yellow_margin {
     height: 98px;
     background: #FFBF00;
     flex-shrink: 0;
     display: flex;
-}
-
-.back-btn{
+  }
+  
+  .back-btn {
     width: 29px;
     height: 29px;
     position: relative;
     flex-shrink: 0;
     padding-top: 49px;
     padding-left: 10px;
-}
-
-.cart{
+  }
+  
+  .cart {
     display: flex;
     position: relative;
-}
-
-.cart-icon{
+  }
+  
+  .cart-icon {
     width: 49px;
     height: 51px;
     flex-shrink: 0;
     position: relative;
     padding-left: 70px;
     padding-top: 37px;
-}
-
-.my-cart-text{
+  }
+  
+  .my-cart-text {
     color: #FFF;
     font-size: 28px;
     font-family: 'Roboto';
@@ -36,60 +36,51 @@
     position: relative;
     padding-left: 15px;
     padding-top: 47px;
-}
-
-.food-img{
+  }
+  
+  .food-img {
     width: 108px;
     height: 104px;
     border-radius: 12px;
     flex-shrink: 0;
     padding-top: 14px;
     padding-left: 10px;
-}
-
-.item-card {
+  }
+  
+  .item-card {
     display: flex;
     position: relative;
-}
-
-.food-item-txt, .qty, .recommendation-system{
+  }
+  
+  .food-item-txt, .qty {
     padding-left: 15px;
-}
-
-.food-item-txt{
+  }
+  
+  .food-item-txt {
     padding-top: 14px;
-}
-
-.qty{
+  }
+  
+  .qty {
     color: #808080;
     font-size: 11px;
     font-family: Roboto;
     padding-top: 5px;
-}
-
-.recommendation-system{
-    color: #000000;
-    font-size: 8px;
-    font-family: Roboto;
-    padding-top: 7px;
-
-}
-
-.plus-minus{
+  }
+  
+  .plus-minus {
     position: absolute;
     top: 80px;
-    left: 320px;
+    left: 270px;
     display: flex;
-}
-
-.plus-qty-minus {
-    padding-left: 5px;
-    padding-right: 5px;
+  }
+  
+  .plus-qty-minus {
+    padding-right: 25px;
     color: #000;
     font-family: Roboto;
-}
-
-.price{
+  }
+  
+  .price {
     color: #808080;
     font-size: 14px;
     font-family: Roboto;
@@ -97,32 +88,32 @@
     top: 100px;
     left: 270px;
     margin: none;
-    
-}
-
-.bold-price{
+  }
+  
+  .bold-price {
     color: #000;
     font-size: 18px;
     font-family: Roboto;
     font-weight: 600;
-}
-
-.checkout{
+  }
+  
+  .checkout {
     padding-top: 31px;
     padding-left: 60px;
-}
-
-.checkout-btn{
+  }
+  
+  .checkout-btn {
     width: 278px;
     height: 44px;
     background: #FEBF00;
     flex-shrink: 0;
     border: none;
-}
-
-.checkout-txt{
+  }
+  
+  .checkout-txt {
     color: #FFF;
     font-size: 17px;
     font-family: Roboto;
     font-weight: 700;
-}
+  }
+  

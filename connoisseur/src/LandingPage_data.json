@@ -1,0 +1,38 @@
+[
+    {
+        "outlet_name" : "BURGER KING",
+        "food-item-image" : "./assets/component-3.png",
+        "price" : 237,
+        "food-item-name" : "Veg Maharaja Wrap",
+        "veg" : "true"
+    },
+    {
+        "outlet_name" : "PIZZA HUT",
+        "food-item-image" : "./assets/component-3.png",
+        "price" : 237,
+        "food-item-name" : "Veg Maharaja Wrap",
+        "veg" : "false"
+    },
+    {
+        "outlet_name" : "PIZZA HUT",
+        "food-item-image" : "./assets/component-3.png",
+        "price" : 237,
+        "food-item-name" : "Veg Maharaja Wrap",
+        "veg" : "false"
+    },
+    {
+        "outlet_name" : "WAFFLE WALLAH",
+        "food-item-image" : "./assets/component-3.png",
+        "price" : 237,
+        "food-item-name" : "Veg Maharaja Wrap",
+        "veg" : "false"
+    },
+    {
+        "outlet_name" : "BURGER KING",
+        "food-item-image" : "./assets/component-3.png",
+        "price" : 237,
+        "food-item-name" : "Veg Maharaja Wrap",
+        "veg" : "false"
+    }
+  ]
+  

@@ -3,11 +3,11 @@ import './popup.css';
 import { Helmet } from 'react-helmet';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
-import minus from "./assets/minus-popup.png";
-import plus from "./assets/plus-popup.png";
-import tagImg from "./assets/tag.png";
-import veg from "./assets/veg-popup.png";
-import non_veg from "./assets/red-dot.png";
+import minus from "./assets2/minus-popup.png";
+import plus from "./assets2/plus-popup.png";
+import tagImg from "./assets2/tag.png";
+import veg from "./assets2/veg-popup.png";
+import non_veg from "./assets2/red-dot.png";
 
 const appSettings = {
   databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
@@ -75,11 +75,11 @@ export default function Popup({ onClose, selectedItemIndex }) {
           {tag && <div className='tag-div'><img src={tagImg} alt="Tag" /></div>}
           <div className='price'><span className='price-txt'>₹ {price}</span></div>
         </div>
-        {tag && (
+        (
           <div className='Bestseller-div'>
             <div className='outer-rect'><span className='bestseller'>{tag}</span></div>
           </div>
-        )}
+        )
         <div className='item-name-div'><span className='item-name'>{foodItemName}</span></div>
         <div className='veg-non-veg'><img src={vegNonVegImage} alt={veg ? "Veg" : "Non-Veg"} /></div>
         <div className='desc'>

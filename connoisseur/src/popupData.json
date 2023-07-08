@@ -1,7 +1,7 @@
    [
     {
-      "food-item-image": "./assets/component-3.png",
-      "food-item-name": "Big Mac",
+      "foodItemImage": "./assets/component-3.png",
+      "foodItemName": "Big Mac",
       "outlet_name": "McDonald's",
       "price": 299,
       "veg": true,

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './MyCart.css';
-import back_btn from './assets/icons-8-back-501.png';
-import cart_icon from './assets/icons-8-cart-5011.png';
-import minus_sign from './assets/icons-8-minus-5011.png';
-import plus_sign from './assets/plus.png';
+import back_btn from './assets2/icons-8-back-501.png';
+import cart_icon from './assets2/icons-8-cart-5011.png';
+import minus_sign from './assets2/icons-8-minus-5011.png';
+import plus_sign from './assets2/plus.png';
 import { Helmet } from 'react-helmet';
 // import {useLocation} from 'react-router-dom';
 import {initializeApp} from 'firebase/app';
 import { getDatabase, ref, push, update, remove, onValue, set } from "firebase/database";
+import { Link } from "react-router-dom";
 
 const appSettings = {
   databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
@@ -47,15 +48,11 @@ export default function MyCart() {
     });
   }, []);
   
-  // const handleBack = () =>{
-  //   window.location.href = '/menu';
-  // };
-  
   const handleCheckout = () => {
     push(orders, cartItems);
   };
 
-  const increaseQuantity = (index) => {
+    const increaseQuantity = (index) => {
     const updatedCartItems = [...cartItems];
     updatedCartItems[index]['food-item-qty'] += 1;
     setCartItems(updatedCartItems);
@@ -85,9 +82,9 @@ export default function MyCart() {
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
       </Helmet>
       <div className="top_yellow_margin">
-        <div className="back-btn" >
+        <Link to ='/menu'><div className="back-btn" >
           <img src={back_btn} alt="Back Button"/>
-        </div>
+        </div></Link>
         <div className="cart">
           <img src={cart_icon} className="cart-icon" alt="Cart Icon" />
           <div className="my-cart-text">My Cart</div>
@@ -97,7 +94,7 @@ export default function MyCart() {
       {cartItems.map((item, index) => (
         <div className="item-card" key={index}>
           <div className="food-img">
-            <img src={item["food-item-image"]} alt={item["food-item-txt"]} />
+            <Link to="/menu"><img src={item["food-item-image"]} alt={item["food-item-txt"]} /></Link>
           </div>
           <div className="section-2">
             <div className="food-item-txt">
@@ -123,9 +120,9 @@ export default function MyCart() {
       ))}
 
       <div className="checkout">
-      <button className="checkout-btn" onClick={handleCheckout}>
+      <Link to="/orders"><button className="checkout-btn" onClick={handleCheckout}>
         <font className="checkout-txt">PROCEED TO CHECKOUT</font>
-      </button>
+      </button></Link>
       </div>
     </div>
   );

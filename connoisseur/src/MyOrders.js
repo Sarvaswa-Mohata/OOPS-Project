@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './MyCart.css';
-import back_btn from './assets/icons-8-back-501.png';
-import order_icon from './assets/icons8-order-100.png';
+import back_btn from './assets2/icons-8-back-501.png';
+import order_icon from './assets2/icons8-order-100.png';
 import { Helmet } from 'react-helmet';
 import {initializeApp} from 'firebase/app';
 import { getDatabase, ref, push, update, remove, onValue, set } from "firebase/database";
+import { Link } from "react-router-dom"
 
 const appSettings = {
   databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
@@ -39,9 +40,9 @@ export default function MyCart({ foodItems }) {
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
       </Helmet>
       <div className="top_yellow_margin">
-        <div className="back-btn">
+        <Link to="/menu"><div className="back-btn">
           <img src={back_btn} alt="Back Button" />
-        </div>
+        </div></Link>
         <div className="cart">
           <img src={order_icon} className="cart-icon" alt="Cart Icon" />
           <div className="my-cart-text">My Orders</div>

@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LandingPage.css';
-import menu_icon from './assets/menu.png';
-import right_arrow_icon from './assets/vector-11.png';
+import menu_icon from './assets2/menu.png';
+import right_arrow_icon from './assets2/vector-11.png';
 import { Helmet } from 'react-helmet';
-import data from './LandingPage_data.json';
-import burger from './assets/component-3.png';
-import './popup.css';
-import Popup from './popup';
-import veg from "./assets/green-dot.png";
-import non_veg from "./assets/red-dot.png";
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, push, remove, onValue, set } from 'firebase/database';
+import { getDatabase, ref, onValue, off } from 'firebase/database';
+import Popup from './popup';
+import veg from "./assets2/green-dot.png";
+import non_veg from "./assets2/red-dot.png";
 
 const appSettings = {
   databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
@@ -18,13 +15,30 @@ const appSettings = {
 
 const app = initializeApp(appSettings);
 const database = getDatabase(app);
-const items = ref(database, 'menuPage');
-
+const itemsRef = ref(database, 'menuPage');
 
 export default function LandingPage() {
-  const [menuPage, setmenuPage] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+
+  useEffect(() => {
+    const fetchData = () => {
+      onValue(itemsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const flattenedMenuItems = Object.values(data).flat();
+          setMenuItems(flattenedMenuItems);
+        }
+      });
+    };
+
+    fetchData();
+
+    return () => {
+      off(itemsRef);
+    };
+  }, []);
 
   const togglePopup = (itemIndex) => {
     setSelectedItemIndex(itemIndex);
@@ -35,7 +49,7 @@ export default function LandingPage() {
     setIsPopupVisible(false);
   };
 
-  const groupedItems = data.reduce((acc, item) => {
+  const groupedItems = menuItems.reduce((acc, item) => {
     const outletName = item.outlet_name;
     if (!acc[outletName]) {
       acc[outletName] = [];
@@ -48,7 +62,7 @@ export default function LandingPage() {
     <div className='LandingPage container'>
       <Helmet>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet" />
       </Helmet>
       <div className='top-yellow-border'>
@@ -76,15 +90,15 @@ export default function LandingPage() {
                   <div className='container-class' key={itemIndex}>
                     <div className='food-item-card'>
                       <div className='food-item-image' onClick={() => togglePopup(itemIndex)}>
-                        <img src={burger} className='food-img' alt='Food Item' />
+                        <img src={item['food-item-image']} className='food-img' alt='Food Item' />
                       </div>
                       <div className='food-price-div'>
                         <span className='food-price'>Rs. {item.price}</span>
                       </div>
                       <div className='item-details'>
                         <div className='food-item-name'>{item['food-item-name']}</div>
-                        <div className='veg-non-veg' key={itemIndex}>
-                          <img src={item.veg === true ? veg : non_veg} className='dot' alt='Dot' />
+                        <div className='veg-non-veg'>
+                          <img src={item.veg ? veg : non_veg} className='dot' alt='Dot' />
                         </div>
                       </div>
                     </div>
@@ -99,6 +113,7 @@ export default function LandingPage() {
         <Popup
           selectedItemIndex={selectedItemIndex}
           onClose={closePopup}
+          menuItems={menuItems}
         />
       )}
     </div>

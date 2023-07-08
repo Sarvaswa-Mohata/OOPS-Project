@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import logo from './assets/connoisseur-logo.png';
+import logo from './assets2/connoisseur-logo.png';
 import './LoginPage.css';
 import { Helmet } from 'react-helmet';
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   const [firstName, setFirstName] = useState('');
@@ -82,9 +83,9 @@ export default function LoginPage() {
         </div>
       </div>
       <div className='btn-div'>
-      <button className={`login-btn ${isFormValid ? '' : 'disabled'}`} onClick={handleLogin} disabled={!isFormValid}>
+      <Link to = '/menu'><button className={`login-btn ${isFormValid ? '' : 'disabled'}`} onClick={handleLogin} disabled={!isFormValid}>
             <font className='login-font'>LOGIN</font>
-      </button>
+      </button></Link>
       </div>
     </div>
   );

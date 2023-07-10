@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './popup.css';
 import { Helmet } from 'react-helmet';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, onValue, off } from 'firebase/database';
+import { getDatabase, ref, onValue, off, push, set } from 'firebase/database';
 import minus from "./assets2/minus-popup.png";
 import plus from "./assets2/plus-popup.png";
 import tagImg from "./assets2/tag.png";
@@ -22,7 +22,9 @@ const getVegNonVegImage = (isVeg) => {
 
 export default function Popup({ onClose, selectedItemIndex }) {
   const popupRef = useRef(null);
+  const cartItemsRef = ref(database, 'cartItems');
   const [popupData, setPopupData] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const popupDataRef = ref(database, 'popupData');
@@ -55,6 +57,14 @@ export default function Popup({ onClose, selectedItemIndex }) {
     };
   }, [onClose]);
 
+  const addItemToCart = (item) => {
+    const { desc, outlet_name, tag, veg, ...updatedItem } = item;
+    updatedItem['foodItemImage'] = item['foodItemImage'].replace('-popup', '-cart');
+    const cartItemsRef = ref(database, 'cartItems');
+    const newCartItemRef = push(cartItemsRef);
+    set(newCartItemRef, updatedItem);
+  };
+  
   if (!popupData) {
     return null; // Render nothing if the data is not available yet
   }
@@ -92,7 +102,7 @@ export default function Popup({ onClose, selectedItemIndex }) {
           <div className='qty'><span className='qty-txt'>1</span></div>
           <div className='plus'><img src={plus} alt="Plus" /></div>
         </div>
-        <div className='add-to-cart-div'><button className='add-to-cart'>ADD TO CART</button></div>
+        <div className='add-to-cart-div'><button className='add-to-cart' onClick={() => addItemToCart(popupData)}>ADD TO CART</button></div>
       </div>
     </div>
   );

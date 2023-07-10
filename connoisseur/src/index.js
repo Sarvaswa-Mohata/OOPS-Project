@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import LandingPage from './LandingPage';
 import LoginPage from './LoginPage';
-// import MyCart from './MyCart.js';
-// import MyOrders from './MyOrders.js';
+import MyCart from './MyCart.js';
+import MyOrders from './MyOrders.js';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -20,14 +20,14 @@ const router = createBrowserRouter([
     path: "/menu",
     element: <LandingPage />,
   },
-  // {
-  //   path: "/cart",
-  //   element: <MyCart />,
-  // },
-  // {
-  //   path: "/orders",
-  //   element: <MyOrders />,
-  // },
+  {
+    path: "/cart",
+    element: <MyCart />,
+  },
+  {
+    path: "/orders",
+    element: <MyOrders />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

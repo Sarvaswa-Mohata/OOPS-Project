@@ -1,14 +1,21 @@
-.logo-img{
-    fill: #FFBF00;
-    width: 274px;
-    height: 309px;
-    flex-shrink: 0;
+
+
+.order-conf,.boring-txt{
+    position: relative;
+    top: 100px;
+    left: 20px;
+}
+
+.boring-txt{
+    padding-top: 25px;
 }
 
 .confirmation-txt{
+    display: flex;
+    justify-content: center;
     color: #222;
     font-family: Inter;
-    font-size: 20px;
+    font-size: 23px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -18,7 +25,8 @@
     color: #808080;
     text-align: center;
     font-family: Inter;
-    font-size: 12px;
+    font-size: 16px;
+    justify-content: center;
     font-style: normal;
     font-weight: 300;
     line-height: normal;

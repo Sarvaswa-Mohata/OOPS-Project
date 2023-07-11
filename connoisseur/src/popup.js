@@ -8,7 +8,7 @@ import plus from "./assets2/plus-popup.png";
 import tagImg from "./assets2/tag.png";
 import veg from "./assets2/veg-popup.png";
 import non_veg from "./assets2/red-dot.png";
-
+import {Link} from "react-router-dom";
 const appSettings = {
   databaseURL: "https://connoisseur-fd354-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
@@ -59,7 +59,7 @@ export default function Popup({ onClose, selectedItemIndex }) {
 
   const addItemToCart = (item) => {
     const { desc, outlet_name, tag, veg, ...updatedItem } = item;
-    updatedItem['foodItemImage'] = item['foodItemImage'].replace('-popup', '-cart');
+    updatedItem['foodItemImage'] = item['foodItemImage'].replace('-popup', '-mycart');
     const cartItemsRef = ref(database, 'cartItems');
     const newCartItemRef = push(cartItemsRef);
     set(newCartItemRef, updatedItem);
@@ -102,7 +102,7 @@ export default function Popup({ onClose, selectedItemIndex }) {
           <div className='qty'><span className='qty-txt'>1</span></div>
           <div className='plus'><img src={plus} alt="Plus" /></div>
         </div>
-        <div className='add-to-cart-div'><button className='add-to-cart' onClick={() => addItemToCart(popupData)}>ADD TO CART</button></div>
+        <div className='add-to-cart-div'><Link to='/cart'><button className='add-to-cart' onClick={() => addItemToCart(popupData)}>ADD TO CART</button></Link></div>
       </div>
     </div>
   );
